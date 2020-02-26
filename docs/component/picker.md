@@ -11,7 +11,7 @@
 |属性名|类型|默认值|说明|
 |:-|:-|:-|:-|
 |range|Array / Array＜Object＞|[]|mode为 selector 或 multiSelector 时，range 有效|
-|range-key|String||当 range 是一个 Array＜Object＞ 时，通过 range-key 来指定 Object 中 key 的值作为选择器显示内容|
+|range-key|String||当 range 是一个 Array＜Object＞ 时，通过 range-key 来指定 Object 中 key 的值作为选择器显示内容;注：range-key="value" 或:range-key="'value'"| 
 |value|Number|0|value 的值表示选择了 range 中的第几个（下标从 0 开始）|
 |@change|EventHandle||value 改变时触发 change 事件，event.detail = {value: value}|
 |disabled|Boolean|false|是否禁用|
@@ -141,6 +141,20 @@
 			</view>
 		</view>
 
+    <view class="uni-title uni-common-pl">对象选择器</view>
+		<view class="uni-list">
+			<view class="uni-list-cell">
+				<view class="uni-list-cell-left">
+					当前选择
+				</view>
+				<view class="uni-list-cell-db">
+					<picker @change="bindPickerChangeObj" :value="objIndex" :range="ObjArray" :range-key="'value'">
+						<view class="uni-input">{{array[objIndex].value}}</view>
+					</picker>
+				</view>
+			</view>
+		</view>
+    
 		<view class="uni-title uni-common-pl">时间选择器</view>
 		<view class="uni-list">
 			<view class="uni-list-cell">
@@ -181,6 +195,20 @@ export default {
             title: 'picker',
             array: ['中国', '美国', '巴西', '日本'],
             index: 0,
+            ObjArray: [{
+                name: 'CH',
+                value: '中国'
+              },
+              {
+                name: 'JP',
+                value: '日本'
+              },
+              {
+                name: 'USA',
+                value: '美国'
+              }
+            ],
+            objIndex: 0,
             date: currentDate,
             time: '12:01'
         }
@@ -197,6 +225,10 @@ export default {
         bindPickerChange: function(e) {
             console.log('picker发送选择改变，携带值为', e.target.value)
             this.index = e.target.value
+        },
+        bindPickerChangeObj: function(e) {
+            console.log('picker发送选择改变，携带值为', e.target.value)
+            this.ObjIndex = e.target.value
         },
         bindDateChange: function(e) {
             this.date = e.target.value
